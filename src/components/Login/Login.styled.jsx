@@ -20,7 +20,7 @@ export const Wrapper = styled.div`
 	min-width: 300px;
 	padding: 20px;
 	background-color: white;
-	box-shadow: 0px 0px 10px 3px gray;
+	box-shadow: 0px 0px 8px gray;
 `;
 
 export const Title = styled.h1`
