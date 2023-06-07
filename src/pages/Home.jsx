@@ -4,6 +4,7 @@ import Announcements from "../components/Announcements";
 import Slider from "../components/Slider";
 import Categories from "../components/Categories";
 import Products from "../components/Products.jsx";
+import Newsletter from "../components/Newsletter";
 
 function Home() {
 	return (
@@ -13,6 +14,7 @@ function Home() {
 			<Slider />
 			<Categories />
 			<Products />
+			<Newsletter />
 		</div>
 	);
 }
