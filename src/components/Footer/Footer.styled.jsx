@@ -1,8 +1,10 @@
 import { styled } from "styled-components";
+import mobile from "../../responsive";
 
 export const Container = styled.div`
 	display: flex;
 	padding-left: 50px;
+	${mobile({ flexDirection: "column" })}
 `;
 
 export const Left = styled.div`
@@ -38,6 +40,7 @@ export const SocialIcon = styled.div`
 export const Center = styled.div`
 	flex: 1;
 	padding: 20px;
+	${mobile({ display: "none" })}
 `;
 
 export const Title = styled.h3`
@@ -62,6 +65,7 @@ export const ListItem = styled.li`
 export const Right = styled.div`
 	flex: 1;
 	padding: 20px;
+	${mobile({ backgroundColor: "#fff8f8" })}
 `;
 
 export const ContactItem = styled.div`
