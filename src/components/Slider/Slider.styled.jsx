@@ -49,10 +49,16 @@ export const ImgContainer = styled.div`
 	flex: 1;
 	display: flex;
 	justify-content: center;
+
+	@media only screen and (max-width: 1000px) {
+		display: none;
+	}
 `;
 
 export const Image = styled.img`
-	height: 80%;
+	max-height: 80%;
+	width: 80%;
+	max-width: 800px;
 `;
 
 export const InfoContainer = styled.div`
