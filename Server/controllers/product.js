@@ -11,7 +11,7 @@ async function getAllProducts(req, res) {
 		} else if (category) {
 			products = await Product.find({
 				categories: {
-					$in: [qCategory]
+					$in: [category]
 				}
 			});
 		} else {
@@ -24,4 +24,13 @@ async function getAllProducts(req, res) {
 	}
 }
 
-module.exports = { getAllProducts };
+async function createProduct(req, res) {
+	try {
+		const product = await Product.create(req.body);
+		res.status(StatusCodes.CREATED).json(product);
+	} catch (error) {
+		res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
+	}
+}
+
+module.exports = { getAllProducts, createProduct };
