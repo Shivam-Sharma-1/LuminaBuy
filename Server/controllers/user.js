@@ -27,6 +27,32 @@ async function getUser(req, res) {
 	}
 }
 
+async function getUserStats(req, res) {
+	const date = new Date();
+	const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
+
+	try {
+		const data = await User.aggregate([
+			{ $match: { createdAt: { $gte: lastYear } } },
+			{
+				$project: {
+					month: { $month: "$createdAt" }
+				}
+			},
+			{
+				$group: {
+					_id: "$month",
+					total: { $sum: 1 }
+				}
+			}
+		]);
+
+		res.status(StatusCodes.OK).json(data);
+	} catch (error) {
+		res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
+	}
+}
+
 async function updateUser(req, res) {
 	req.body.password &&
 		(req.body.password = hashedPassword(req.body.password));
@@ -53,4 +79,4 @@ async function deleteUser(req, res) {
 	}
 }
 
-module.exports = { getAllUsers, getUser, updateUser, deleteUser };
+module.exports = { getAllUsers, getUser, getUserStats, updateUser, deleteUser };
