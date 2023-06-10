@@ -16,7 +16,7 @@ const router = express.Router();
 router
 	.get("/", authorizeAdminMiddleware, getAllItems)
 	.post("/", authenticationMiddleware, createItem)
-	.get("/:id", authorizationMiddleware, getItem)
+	.get("/:userId", authorizationMiddleware, getItem)
 	.put("/:id", authorizationMiddleware, updateItem)
 	.delete("/:id", authorizationMiddleware, deleteItem);
 
