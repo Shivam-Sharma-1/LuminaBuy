@@ -1,5 +1,5 @@
 const StatusCodes = require("http-status-codes");
-
+const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const { hashedPassword, decryptPassword } = require("../util/hashedpassword");
 
@@ -25,9 +25,18 @@ async function login(req, res) {
 		req.body.password != decryptPassword(user.password) &&
 			res.status(StatusCodes.UNAUTHORIZED).json("Wrong password");
 
+		const accessToken = jwt.sign(
+			{
+				id: user._id,
+				isAdmin: user.isAdmin
+			},
+			process.env.JWT_SECRET,
+			{ expiresIn: "30d" }
+		);
+
 		const { password, ...userDetails } = user._doc;
 
-		res.status(StatusCodes.OK).json(userDetails);
+		res.status(StatusCodes.OK).json({ ...userDetails, accessToken });
 	} catch (error) {
 		res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
 	}
