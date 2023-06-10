@@ -24,4 +24,15 @@ const authorizationMiddleware = (req, res, next) => {
 	});
 };
 
-module.exports = { authenticationMiddleware, authorizationMiddleware };
+const authorizeAdminMiddleware = (req, res, next) => {
+	authenticationMiddleware(req, res, () => {
+		if (req.user.isAdmin) next();
+		else res.status(StatusCodes.FORBIDDEN).json("Unauthorized");
+	});
+};
+
+module.exports = {
+	authenticationMiddleware,
+	authorizationMiddleware,
+	authorizeAdminMiddleware
+};
