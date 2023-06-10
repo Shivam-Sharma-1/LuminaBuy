@@ -2,7 +2,21 @@ const User = require("../models/User");
 const { hashedPassword } = require("../util/hashedpassword");
 const { StatusCodes } = require("http-status-codes");
 
-async function editUser(req, res) {
+async function getAllUsers(req, res) {
+	const query = req.query.new;
+
+	try {
+		const users = query
+			? await User.find().sort({ _id: -1 }).limit(5)
+			: await User.find();
+
+		res.status(StatusCodes.OK).json(users);
+	} catch (error) {
+		res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
+	}
+}
+
+async function updateUser(req, res) {
 	req.body.password &&
 		(req.body.password = hashedPassword(req.body.password));
 
@@ -28,4 +42,4 @@ async function deleteUser(req, res) {
 	}
 }
 
-module.exports = { editUser, deleteUser };
+module.exports = { getAllUsers, updateUser, deleteUser };
