@@ -16,6 +16,17 @@ async function getAllUsers(req, res) {
 	}
 }
 
+async function getUser(req, res) {
+	try {
+		const user = await User.findById(req.params.id);
+		const { password, ...userDetails } = user._doc;
+
+		res.status(StatusCodes.OK).json(userDetails);
+	} catch (error) {
+		res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
+	}
+}
+
 async function updateUser(req, res) {
 	req.body.password &&
 		(req.body.password = hashedPassword(req.body.password));
@@ -42,4 +53,4 @@ async function deleteUser(req, res) {
 	}
 }
 
-module.exports = { getAllUsers, updateUser, deleteUser };
+module.exports = { getAllUsers, getUser, updateUser, deleteUser };
