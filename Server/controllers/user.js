@@ -19,4 +19,13 @@ async function editUser(req, res) {
 	}
 }
 
-module.exports = { editUser };
+async function deleteUser(req, res) {
+	try {
+		await User.findByIdAndDelete(req.params.id);
+		res.status(StatusCodes.OK).json("User has been deleted");
+	} catch (error) {
+		res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
+	}
+}
+
+module.exports = { editUser, deleteUser };
