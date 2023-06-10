@@ -1,8 +1,13 @@
 const express = require("express");
-const { authorizationMiddleware } = require("../middleware/authentication");
-const { editUser } = require("../controllers/user");
+const {
+	authorizationMiddleware,
+	authorizeAdminMiddleware
+} = require("../middleware/authentication");
+const { editUser, deleteUser } = require("../controllers/user");
 const router = express.Router();
 
-router.put("/:id", authorizationMiddleware, editUser);
+router
+	.put("/:id", authorizationMiddleware, editUser)
+	.delete("/:id", authorizeAdminMiddleware, deleteUser);
 
 module.exports = router;
