@@ -1,7 +1,7 @@
 import Cart from "../components/Cart";
 
-function Cart() {
+function CartPage() {
 	return <Cart />;
 }
 
-export default Cart;
+export default CartPage;

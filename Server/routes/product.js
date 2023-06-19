@@ -12,7 +12,7 @@ const router = express.Router();
 router
 	.get("/", getAllProducts)
 	.post("/", authorizeAdminMiddleware, createProduct)
-	.get("/:id", getProduct)
+	.get("/find/:id", getProduct)
 	.put("/:id", authorizeAdminMiddleware, updateProduct)
 	.delete("/:id", authorizeAdminMiddleware, deleteProduct);
 

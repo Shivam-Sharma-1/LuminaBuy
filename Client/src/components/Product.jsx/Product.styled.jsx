@@ -26,6 +26,7 @@ export const Container = styled.div`
 	justify-content: center;
 	background-color: #f5fbfd;
 	position: relative;
+	color: black;
 
 	&:hover ${Info} {
 		opacity: 1;
