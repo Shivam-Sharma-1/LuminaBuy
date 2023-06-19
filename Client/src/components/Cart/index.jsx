@@ -31,8 +31,41 @@ import {
 import { MdOutlineAdd, MdOutlineRemove } from "react-icons/md";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import StripeCheckout from "react-stripe-checkout";
+
+import { useEffect, useState } from "react";
+import { userRequest } from "../../util/requestMethods";
 
 function Cart() {
+	const stripeKey = import.meta.env.VITE_APP_STRIPE_PUBLIC_KEY;
+	const cart = useSelector((state) => state.cart);
+	const [stripeToken, setStripeToken] = useState(null);
+	const history = useHistory();
+
+	function onToken(token) {
+		setStripeToken(token);
+	}
+
+	useEffect(() => {
+		async function makeRequest() {
+			try {
+				const res = await userRequest.post("/checkout/payment", {
+					tokenId: stripeToken.id,
+					amount: cart.total * 100
+				});
+				history.push("/success", {
+					stripeData: res.data,
+					products: cart
+				});
+			} catch (error) {
+				console.log(error);
+			}
+		}
+		stripeToken && makeRequest();
+	}, [stripeToken, cart.total, history]);
+
 	return (
 		<Container>
 			<Navbar />
@@ -48,63 +81,42 @@ function Cart() {
 				</Top>
 				<Bottom>
 					<Info>
-						<Product>
-							<ProductDetail>
-								<Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
-								<Details>
-									<ProductName>
-										<b>Product:</b> JESSIE THUNDER SHOES
-									</ProductName>
-									<ProductId>
-										<b>ID:</b> 93813718293
-									</ProductId>
-									<ProductColor color="black" />
-									<ProductSize>
-										<b>Size:</b> 37.5
-									</ProductSize>
-								</Details>
-							</ProductDetail>
-							<PriceDetail>
-								<ProductAmountContainer>
-									<MdOutlineRemove size={30} />{" "}
-									<ProductAmount>2</ProductAmount>
-									<MdOutlineAdd size={30} />
-								</ProductAmountContainer>
-								<ProductPrice>$ 30</ProductPrice>
-							</PriceDetail>
-						</Product>
+						{cart.products.map((prod) => (
+							<Product>
+								<ProductDetail>
+									<Image src={prod.img} />
+									<Details>
+										<ProductName>
+											<b>Product:</b>
+											{prod.title}
+										</ProductName>
+										<ProductColor color={prod.scolor} />
+										<ProductSize>
+											<b>Size:</b> {prod.size}
+										</ProductSize>
+									</Details>
+								</ProductDetail>
+								<PriceDetail>
+									<ProductAmountContainer>
+										<MdOutlineRemove size={30} />{" "}
+										<ProductAmount>
+											{prod.quantity}
+										</ProductAmount>
+										<MdOutlineAdd size={30} />
+									</ProductAmountContainer>
+									<ProductPrice>
+										$ {prod.price * prod.quantity}
+									</ProductPrice>
+								</PriceDetail>
+							</Product>
+						))}
 						<Hr />
-						<Product>
-							<ProductDetail>
-								<Image src="https://i.pinimg.com/originals/2d/af/f8/2daff8e0823e51dd752704a47d5b795c.png" />
-								<Details>
-									<ProductName>
-										<b>Product:</b> HAKURA T-SHIRT
-									</ProductName>
-									<ProductId>
-										<b>ID:</b> 93813718293
-									</ProductId>
-									<ProductColor color="gray" />
-									<ProductSize>
-										<b>Size:</b> M
-									</ProductSize>
-								</Details>
-							</ProductDetail>
-							<PriceDetail>
-								<ProductAmountContainer>
-									<MdOutlineRemove size={30} />{" "}
-									<ProductAmount>1</ProductAmount>
-									<MdOutlineAdd size={30} />
-								</ProductAmountContainer>
-								<ProductPrice>$ 20</ProductPrice>
-							</PriceDetail>
-						</Product>
 					</Info>
 					<Summary>
 						<SummaryTitle>ORDER SUMMARY</SummaryTitle>
 						<SummaryItem>
 							<SummaryItemText>Subtotal</SummaryItemText>
-							<SummaryItemPrice>$ 80</SummaryItemPrice>
+							<SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
 						</SummaryItem>
 						<SummaryItem>
 							<SummaryItemText>
@@ -118,9 +130,22 @@ function Cart() {
 						</SummaryItem>
 						<SummaryItem type="total">
 							<SummaryItemText>Total</SummaryItemText>
-							<SummaryItemPrice>$ 80</SummaryItemPrice>
+							<SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
 						</SummaryItem>
-						<Button>CHECKOUT NOW</Button>
+						<StripeCheckout
+							name={"LuminaBuy"}
+							image={
+								"https://cdn.shopify.com/s/files/1/0589/5657/8969/products/lumina-marble-candle-stand-by-kaksh-studio-ikiru-in-2_525x700.jpg?v=1676442355"
+							}
+							billingAddress
+							shippingAddress
+							description={`Your total is $${cart.total}`}
+							amount={cart.total * 100}
+							token={onToken}
+							stripeKey={stripeKey}
+						>
+							<Button>CHECKOUT NOW</Button>
+						</StripeCheckout>
 					</Summary>
 				</Bottom>
 			</Wrapper>

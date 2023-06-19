@@ -1,5 +1,7 @@
 import React from "react";
 import { MdSearch, MdOutlineShoppingCart } from "react-icons/md";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+
 import {
 	Center,
 	Container,
@@ -13,8 +15,13 @@ import {
 	SearchContainer,
 	Wrapper
 } from "./Navbar.styled";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Badge } from "@mui/material";
 
 function Navbar() {
+	const quantity = useSelector((state) => state.cart.quantity);
+
 	return (
 		<Container>
 			<Wrapper>
@@ -26,16 +33,22 @@ function Navbar() {
 					</SearchContainer>
 				</Left>
 				<Center>
-					<Logo>
-						Lumina<LogoSpan>Buy</LogoSpan>
-					</Logo>
+					<Link to="/" style={{ textDecoration: "none" }}>
+						<Logo>
+							Lumina<LogoSpan>Buy</LogoSpan>
+						</Logo>
+					</Link>
 				</Center>
 				<Right>
 					<MenuItem>Register</MenuItem>
 					<MenuItem>Sign In</MenuItem>
-					<MenuItem>
-						<MdOutlineShoppingCart size={20} />
-					</MenuItem>
+					<Link to={"/cart"} style={{ color: "inherit" }}>
+						<MenuItem>
+							<Badge badgeContent={quantity} color="primary">
+								<ShoppingCartOutlinedIcon />
+							</Badge>
+						</MenuItem>
+					</Link>
 				</Right>
 			</Wrapper>
 		</Container>
