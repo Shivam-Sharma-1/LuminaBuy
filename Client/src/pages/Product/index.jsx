@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import {
@@ -22,95 +21,51 @@ import {
 	Wrapper
 } from "./Product.styled";
 import { MdOutlineAdd, MdOutlineRemove } from "react-icons/md";
-import { useEffect, useState } from "react";
-import { publicRequest } from "../../util/requestMethods";
-import { useDispatch } from "react-redux";
-import { addProduct } from "../../redux/cartRedux";
 
 function Product() {
-	const params = useParams();
-	const dispatch = useDispatch();
-	const { id } = params;
-
-	const [product, setProduct] = useState({});
-	const [quantity, setQuantity] = useState(1);
-	const [color, setColor] = useState("");
-	const [size, setSize] = useState("");
-
-	const { title, desc, img, price } = product;
-
-	useEffect(() => {
-		async function getProduct() {
-			try {
-				const res = await publicRequest.get(`/products/find/${id}`);
-				setProduct(res.data);
-			} catch (error) {
-				console.log(error);
-			}
-		}
-		getProduct();
-	}, [id]);
-
-	function handleQuantity(type) {
-		if (type === "dec") {
-			quantity > 1 && setQuantity(quantity - 1);
-		} else {
-			setQuantity(quantity + 1);
-		}
-	}
-
-	function handleClick() {
-		dispatch(addProduct({ ...product, quantity, color, size }));
-	}
-
 	return (
 		<Container>
 			<Navbar />
 			<Wrapper>
 				<ImgContainer>
-					<Image src={img} />
+					<Image src="https://i.ibb.co/S6qMxwr/jean.jpg" />
 				</ImgContainer>
 				<InfoContainer>
-					<Title>{title}</Title>
-					<Desc>{desc}</Desc>
-					<Price>$ {price}</Price>
+					<Title>Denim Jumpsuit</Title>
+					<Desc>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+						Donec venenatis, dolor in finibus malesuada, lectus
+						ipsum porta nunc, at iaculis arcu nisi sed mauris. Nulla
+						fermentum vestibulum ex, eget tristique tortor pretium
+						ut. Curabitur elit justo, consequat id condimentum ac,
+						volutpat ornare.
+					</Desc>
+					<Price>$ 20</Price>
 					<FilterContainer>
 						<Filter>
 							<FilterTitle>Color</FilterTitle>
-							{product.color?.map((col, index) => (
-								<FilterColor
-									color={col}
-									key={index}
-									onClick={() => setColor(col)}
-								/>
-							))}
+							<FilterColor color="black" />
+							<FilterColor color="darkblue" />
+							<FilterColor color="gray" />
 						</Filter>
 						<Filter>
 							<FilterTitle>Size</FilterTitle>
-							<FilterSize
-								onChange={(e) => setSize(e.target.value)}
-							>
-								{product.size?.map((siz, index) => (
-									<FilterSizeOption key={index}>
-										{siz}
-									</FilterSizeOption>
-								))}
+							<FilterSize>
+								<FilterSizeOption>XS</FilterSizeOption>
+								<FilterSizeOption>S</FilterSizeOption>
+								<FilterSizeOption>M</FilterSizeOption>
+								<FilterSizeOption>L</FilterSizeOption>
+								<FilterSizeOption>XL</FilterSizeOption>
 							</FilterSize>
 						</Filter>
 					</FilterContainer>
 					<AddContainer>
 						<AmountContainer>
-							<MdOutlineRemove
-								size={30}
-								onClick={() => handleQuantity("dec")}
-							/>
-							<Amount>{quantity}</Amount>
-							<MdOutlineAdd
-								size={30}
-								onClick={() => handleQuantity("inc")}
-							/>
+							<MdOutlineRemove size={30} />
+							<Amount>1</Amount>
+							<MdOutlineAdd size={30} />
 						</AmountContainer>
-						<Button onClick={handleClick}>ADD TO CART</Button>
+						<Button>ADD TO CART</Button>
 					</AddContainer>
 				</InfoContainer>
 			</Wrapper>

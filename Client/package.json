@@ -10,20 +10,10 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "@emotion/react": "^11.11.1",
-        "@emotion/styled": "^11.11.0",
-        "@mui/icons-material": "^5.11.16",
-        "@mui/material": "^5.13.4",
-        "@reduxjs/toolkit": "^1.9.5",
-        "@stripe/react-stripe-js": "^2.1.1",
-        "@stripe/stripe-js": "^1.54.0",
-        "axios": "^1.4.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-icons": "^4.9.0",
-        "react-redux": "^8.0.7",
         "react-router-dom": "^6.12.1",
-        "react-stripe-checkout": "^2.6.3",
         "styled-components": "^6.0.0-rc.3"
     },
     "devDependencies": {

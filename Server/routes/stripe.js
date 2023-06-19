@@ -1,6 +1,6 @@
 const express = require("express");
 const StatusCodes = require("http-status-codes");
-const stripe = require("stripe")(process.env.VITE_STRIPE_KEY);
+const stripe = require("stripe");
 const router = express.Router();
 
 router.post("/payment", (req, res) => {

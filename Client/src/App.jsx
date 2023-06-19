@@ -4,13 +4,13 @@ import {
 	createBrowserRouter,
 	createRoutesFromElements
 } from "react-router-dom";
-import Login from "./pages/Login";
+import Cart from "./components/Cart";
+import Login from "./components/Login";
 import Home from "./pages/Home";
 import Product from "./pages/Product";
 import ProductList from "./pages/ProductList";
 import Register from "./pages/Register";
-import Success from "./pages/Success";
-import CartPage from "./pages/Cart";
+import Success from "./components/Success";
 
 function App() {
 	const user = true;
@@ -21,9 +21,9 @@ function App() {
 				<Route index element={<Home />} />
 				<Route path="products">
 					<Route path=":category" element={<ProductList />} />
-					<Route path="find/:id" element={<Product />} />
+					<Route path=":id" element={<Product />} />
 				</Route>
-				<Route path="cart" element={<CartPage />} />
+				<Route path="cart" element={<Cart />} />
 				<Route path="success" element={<Success />} />
 				<Route path="login" element={<Login />} />
 				<Route path="register" element={<Register />} />
