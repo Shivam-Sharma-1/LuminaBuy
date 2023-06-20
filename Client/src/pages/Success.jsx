@@ -1,7 +1,7 @@
 import Success from "../components/Success";
 
-function Success() {
+function SuccessPage() {
 	return <Success />;
 }
 
-export default Success;
+export default SuccessPage;

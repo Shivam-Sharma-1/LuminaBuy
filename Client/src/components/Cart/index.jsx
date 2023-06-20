@@ -32,7 +32,7 @@ import { MdOutlineAdd, MdOutlineRemove } from "react-icons/md";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import StripeCheckout from "react-stripe-checkout";
 
 import { useEffect, useState } from "react";
@@ -42,7 +42,7 @@ function Cart() {
 	const stripeKey = import.meta.env.VITE_APP_STRIPE_PUBLIC_KEY;
 	const cart = useSelector((state) => state.cart);
 	const [stripeToken, setStripeToken] = useState(null);
-	const history = useHistory();
+	const navigateTo = useNavigate();
 
 	function onToken(token) {
 		setStripeToken(token);
@@ -55,7 +55,7 @@ function Cart() {
 					tokenId: stripeToken.id,
 					amount: cart.total * 100
 				});
-				history.push("/success", {
+				navigateTo("/success", {
 					stripeData: res.data,
 					products: cart
 				});
@@ -87,12 +87,12 @@ function Cart() {
 									<Image src={prod.img} />
 									<Details>
 										<ProductName>
-											<b>Product:</b>
+											<b>Product: </b>
 											{prod.title}
 										</ProductName>
 										<ProductColor color={prod.scolor} />
 										<ProductSize>
-											<b>Size:</b> {prod.size}
+											<b>Size: </b> {prod.size}
 										</ProductSize>
 									</Details>
 								</ProductDetail>

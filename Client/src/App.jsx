@@ -9,11 +9,12 @@ import Home from "./pages/Home";
 import Product from "./pages/Product";
 import ProductList from "./pages/ProductList";
 import Register from "./pages/Register";
-import Success from "./pages/Success";
 import CartPage from "./pages/Cart";
+import SuccessPage from "./pages/Success";
+import { useSelector } from "react-redux";
 
 function App() {
-	const user = true;
+	const user = useSelector((state) => state.user.currentUser);
 
 	const router = createBrowserRouter(
 		createRoutesFromElements(
@@ -24,7 +25,7 @@ function App() {
 					<Route path="find/:id" element={<Product />} />
 				</Route>
 				<Route path="cart" element={<CartPage />} />
-				<Route path="success" element={<Success />} />
+				<Route path="success" element={<SuccessPage />} />
 				<Route path="login" element={<Login />} />
 				<Route path="register" element={<Register />} />
 			</Route>
