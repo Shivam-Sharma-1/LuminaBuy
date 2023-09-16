@@ -12,8 +12,8 @@ function Products({ category, sort, filters }) {
 			try {
 				const res = await axios.get(
 					category
-						? `http://localhost:5000/api/products?category=${category}`
-						: `http://localhost:5000/api/products`
+						? `http://lumina-buy.vercel.app/api/products?category=${category}`
+						: `http://lumina-buy.vercel.app/api/products`
 				);
 				setProducts(res.data);
 			} catch (error) {
